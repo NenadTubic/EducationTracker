@@ -27,7 +27,6 @@ public class TaskManagementActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         // Učitaj temu iz SharedPreferences i postavi je
         SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
         int nightMode = sharedPreferences.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO);
@@ -52,7 +51,7 @@ public class TaskManagementActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Učitaj zadatke iz SharedPreferences ili bilo kojeg izvora podataka
+        // Učitaj zadatke iz SharedPreferences
         loadTasks();
     }
 
@@ -66,9 +65,17 @@ public class TaskManagementActivity extends AppCompatActivity {
         taskAdapter.notifyDataSetChanged();
     }
 
+    private void deleteTask(int position) {
+        if (position >= 0 && position < taskList.size()) {
+            taskList.remove(position);
+            taskAdapter.notifyItemRemoved(position);
+            taskAdapter.notifyItemRangeChanged(position, taskList.size());
+            saveTasks();
+        }
+    }
+
     private void editTask(int position) {
         String task = taskList.get(position);
-        // Logika za uređivanje zadatka
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Uredi zadatak");
 
@@ -87,11 +94,7 @@ public class TaskManagementActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void deleteTask(int position) {
-        taskList.remove(position);
-        taskAdapter.notifyItemRemoved(position);
-        saveTasks();
-    }
+
 
     private void saveTasks() {
         SharedPreferences sharedPreferences = getSharedPreferences("TaskPreferences", Context.MODE_PRIVATE);
@@ -102,7 +105,6 @@ public class TaskManagementActivity extends AppCompatActivity {
     }
 
     private void addNewTask() {
-        // Logika za dodavanje novog zadatka
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Dodaj novi zadatak");
 
@@ -114,9 +116,13 @@ public class TaskManagementActivity extends AppCompatActivity {
             taskList.add(newTask);
             taskAdapter.notifyItemInserted(taskList.size() - 1);
             saveTasks();
+            // Osveži podatke u MainActivity
+            Intent refreshIntent = new Intent(TaskManagementActivity.this, MainActivity.class);
+            startActivity(refreshIntent);
         });
         builder.setNegativeButton("Otkaži", (dialog, which) -> dialog.cancel());
 
         builder.show();
     }
 }
+

@@ -13,7 +13,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -137,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         // Klik na plutajući dugme za dodavanje zadatka
         fabAddTask.setOnClickListener(view -> addTask());
 
-        // Slušanje događaja klika na stavku u RecyclerView
+// Slušanje događaja klika na stavku u RecyclerView
         rvTasks.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, rvTasks, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
@@ -148,14 +147,18 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-                        String task = taskList.get(position);
-                        taskList.remove(position);
-                        taskAdapter.notifyItemRemoved(position);
-                        saveTasks();
-                        Toast.makeText(MainActivity.this, "Obrisali ste: " + task, Toast.LENGTH_SHORT).show();
+                        if (position >= 0 && position < taskList.size()) {
+                            String task = taskList.get(position);
+                            taskList.remove(position);
+                            taskAdapter.notifyItemRemoved(position);
+                            taskAdapter.notifyItemRangeChanged(position, taskList.size()); // Osiguraj osvežavanje ostalih stavki
+                            saveTasks();
+                            Toast.makeText(MainActivity.this, "Obrisali ste: " + task, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
         );
+
     }
 
     @Override
@@ -254,4 +257,12 @@ public class MainActivity extends AppCompatActivity {
             taskAdapter.notifyDataSetChanged();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Učitavanje taskova iz SharedPreferences
+        loadTasks();
+    }
+
 }

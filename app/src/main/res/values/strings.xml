@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Education Tracker</string>
+    <string name="app_name">Nenad Tubić MIT5/23</string>
     <string name="task_name_hint">Unesite ime zadatka</string>
     <string name="add_task_button">Dodaj zadatak</string>
     <string name="task_added">Zadatak dodat!</string>
