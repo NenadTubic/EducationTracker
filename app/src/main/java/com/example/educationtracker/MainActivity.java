@@ -80,15 +80,20 @@ public class MainActivity extends AppCompatActivity {
         boolean notificationsEnabled = sharedPreferences.getBoolean("notifications_enabled", true);
 
         taskList = new ArrayList<>();
-        taskAdapter = new TaskAdapter(this, taskList, position -> {
-            String task = taskList.get(position);
-            Toast.makeText(MainActivity.this, "Kliknuli ste na: " + task, Toast.LENGTH_SHORT).show();
-        }, position -> {
-            // Dugački pritisak za brisanje
-            taskList.remove(position);
-            taskAdapter.notifyItemRemoved(position);
-            saveTasks();
-        });
+        taskAdapter = new TaskAdapter(
+                this,
+                taskList,
+                position -> {
+                    String task = taskList.get(position);
+                    Toast.makeText(MainActivity.this, "Kliknuli ste na: " + task, Toast.LENGTH_SHORT).show();
+                },
+                position -> {
+                    // Logika dugog pritiska može ostati prazna ili dodati željeno ponašanje
+                }
+        );
+
+        rvTasks.setAdapter(taskAdapter);
+
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
         rvTasks.setAdapter(taskAdapter);
 
@@ -144,20 +149,10 @@ public class MainActivity extends AppCompatActivity {
                         String task = taskList.get(position);
                         Toast.makeText(MainActivity.this, "Kliknuli ste na: " + task, Toast.LENGTH_SHORT).show();
                     }
-
-                    @Override
-                    public void onLongItemClick(View view, int position) {
-                        if (position >= 0 && position < taskList.size()) {
-                            String task = taskList.get(position);
-                            taskList.remove(position);
-                            taskAdapter.notifyItemRemoved(position);
-                            taskAdapter.notifyItemRangeChanged(position, taskList.size()); // Osiguraj osvežavanje ostalih stavki
-                            saveTasks();
-                            Toast.makeText(MainActivity.this, "Obrisali ste: " + task, Toast.LENGTH_SHORT).show();
-                        }
-                    }
                 })
         );
+
+
 
     }
 

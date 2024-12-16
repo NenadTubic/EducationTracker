@@ -14,7 +14,9 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
-        void onLongItemClick(View view, int position);
+        default void onLongItemClick(View view, int position){
+            //prazna impl.
+        }
     }
 
     public RecyclerItemClickListener(Context context, final RecyclerView recyclerView, OnItemClickListener listener) {

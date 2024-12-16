@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,11 +38,13 @@ public class TaskManagementActivity extends AppCompatActivity {
 
         rvTasks = findViewById(R.id.rv_tasks);
         taskList = new ArrayList<>();
-        taskAdapter = new TaskAdapter(this, taskList, position -> {
-            editTask(position);
-        }, position -> {
-            deleteTask(position);
-        });
+        taskAdapter = new TaskAdapter(
+                this,
+                taskList,
+                position -> editTask(position),  // Klik za uređivanje
+                position -> deleteTask(position) // Dugi pritisak za brisanje
+        );
+
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
         rvTasks.setAdapter(taskAdapter);
 
@@ -85,9 +88,13 @@ public class TaskManagementActivity extends AppCompatActivity {
 
         builder.setPositiveButton("Sačuvaj", (dialog, which) -> {
             String editedTask = input.getText().toString();
-            taskList.set(position, editedTask);
-            taskAdapter.notifyItemChanged(position);
-            saveTasks();
+            if (!editedTask.trim().isEmpty()) {
+                taskList.set(position, editedTask);
+                taskAdapter.notifyItemChanged(position);
+                saveTasks();
+            } else {
+                Toast.makeText(this, "Zadatak ne može biti prazan!", Toast.LENGTH_SHORT).show();
+            }
         });
         builder.setNegativeButton("Otkaži", (dialog, which) -> dialog.cancel());
 

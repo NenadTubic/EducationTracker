@@ -17,13 +17,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
-    // Constructor for TaskAdapter
-    public TaskAdapter(Context context, List<String> taskList, OnItemClickListener clickListener, OnItemLongClickListener longClickListener) {
+    public TaskAdapter(Context context, List<String> taskList,
+                       OnItemClickListener clickListener,
+                       OnItemLongClickListener longClickListener) {
         this.taskList = taskList;
         this.mInflater = LayoutInflater.from(context);
         this.onItemClickListener = clickListener;
         this.onItemLongClickListener = longClickListener;
     }
+
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,13 +38,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         String task = taskList.get(position);
         holder.taskItemView.setText(task);
 
+        // Rukovanje klikom
         holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(position));
+
+        // Rukovanje dugim pritiskom
         holder.itemView.setOnLongClickListener(v -> {
             onItemLongClickListener.onItemLongClick(position);
             return true;
         });
     }
-
 
     @Override
     public int getItemCount() {
@@ -66,3 +70,4 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
     }
 }
+
