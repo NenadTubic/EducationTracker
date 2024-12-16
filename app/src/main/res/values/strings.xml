@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Education Tracker</string>
+    <string name="task_name_hint">Unesite ime zadatka</string>
+    <string name="add_task_button">Dodaj zadatak</string>
+    <string name="task_added">Zadatak dodat!</string>
+    <string name="task_name_empty">Unesite ime zadatka!</string>
+</resources>
