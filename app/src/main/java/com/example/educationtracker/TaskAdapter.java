@@ -26,7 +26,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         this.onItemLongClickListener = longClickListener;
     }
 
-
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.task_list_item, parent, false);
@@ -38,10 +37,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         String task = taskList.get(position);
         holder.taskItemView.setText(task);
 
-        // Rukovanje klikom
         holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(position));
 
-        // Rukovanje dugim pritiskom
         holder.itemView.setOnLongClickListener(v -> {
             onItemLongClickListener.onItemLongClick(position);
             return true;

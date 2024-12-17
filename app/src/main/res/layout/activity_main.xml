@@ -26,7 +26,6 @@
         android:padding="16dp"
         android:layout_marginTop="?attr/actionBarSize">
 
-        <!-- Polje za unos naziva zadatka -->
         <EditText
             android:id="@+id/et_task_name"
             android:layout_width="match_parent"
@@ -34,7 +33,6 @@
             android:hint="@string/task_name_hint"
             android:layout_marginTop="16dp" />
 
-        <!-- Dugme za otvaranje DatePicker dijaloga -->
         <Button
             android:id="@+id/btn_date_picker"
             android:layout_width="wrap_content"
@@ -43,14 +41,12 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp" />
 
-        <!-- LinearLayout za grupisanje CheckBox i RadioButton elemenata -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="16dp">
 
-            <!-- Checkbox za označavanje prioriteta -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,7 +74,6 @@
                     android:text="Nizak" />
             </LinearLayout>
 
-            <!-- RadioButton za vrstu zadatka -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -116,7 +111,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- RecyclerView za zadatke -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tasks"
             android:layout_width="match_parent"
@@ -124,7 +118,6 @@
             android:layout_weight="1"
             android:layout_marginTop="16dp" />
 
-        <!-- Plutajući dugme -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_task"
             android:layout_width="wrap_content"

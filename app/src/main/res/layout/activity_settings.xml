@@ -21,7 +21,6 @@
             android:layout_marginTop="16dp"
             android:textStyle="bold" />
 
-        <!-- Opcije za postavke notifikacija -->
         <TextView
             android:id="@+id/tv_notification_settings"
             android:layout_width="wrap_content"
@@ -37,7 +36,6 @@
             android:text="Omogući notifikacije"
             android:layout_marginTop="8dp" />
 
-        <!-- Opcije za promenu teme -->
         <TextView
             android:id="@+id/tv_theme_settings"
             android:layout_width="wrap_content"
@@ -54,7 +52,5 @@
             android:layout_marginTop="8dp" />
 
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

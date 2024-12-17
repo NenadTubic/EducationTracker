@@ -24,7 +24,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Učitaj temu iz SharedPreferences i postavi je
         sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
         int nightMode = sharedPreferences.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO);
         AppCompatDelegate.setDefaultNightMode(nightMode);
@@ -35,12 +34,10 @@ public class SettingsActivity extends AppCompatActivity {
         swNotifications = findViewById(R.id.sw_notifications);
         btnChangeTheme = findViewById(R.id.btn_change_theme);
 
-        // Postavljanje podrazumevanih vrednosti
         swNotifications.setChecked(sharedPreferences.getBoolean("notifications_enabled", true));
         nightMode = sharedPreferences.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO);  // Izmena vrednosti
         AppCompatDelegate.setDefaultNightMode(nightMode);
 
-        // Ostatak koda...
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -50,7 +47,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-        // Promena teme
         btnChangeTheme.setOnClickListener(view -> {
             int currentNightMode = AppCompatDelegate.getDefaultNightMode();
             int newNightMode = currentNightMode == AppCompatDelegate.MODE_NIGHT_YES
@@ -60,12 +56,10 @@ public class SettingsActivity extends AppCompatActivity {
             sharedPreferences.edit().putInt("night_mode", newNightMode).apply();
         });
 
-        // Postavke notifikacija
         swNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
             sharedPreferences.edit().putBoolean("notifications_enabled", isChecked).apply();
 
             if (isChecked) {
-                // Kreiraj notifikacioni kanal (samo za verzije Androida 8.0 i više)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     CharSequence name = "TaskNotificationChannel";
                     String description = "Channel for Task Notifications";
@@ -76,7 +70,6 @@ public class SettingsActivity extends AppCompatActivity {
                     notificationManager.createNotificationChannel(channel);
                 }
 
-                // Prikaz test notifikacije
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(SettingsActivity.this, "TASK_NOTIFICATION_CHANNEL")
                         .setSmallIcon(android.R.drawable.ic_dialog_info)
                         .setContentTitle("Notifikacije omogućene")
@@ -86,7 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(SettingsActivity.this);
                 notificationManager.notify(1, builder.build());
             } else {
-                // Uklanjanje postojećih notifikacija
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(SettingsActivity.this);
                 notificationManager.cancelAll();
             }

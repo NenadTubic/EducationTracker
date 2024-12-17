@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // Učitaj temu iz SharedPreferences i postavi je
         sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
         int nightMode = sharedPreferences.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO);
         AppCompatDelegate.setDefaultNightMode(nightMode);
@@ -58,14 +57,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Postavljanje dugog pritiska na naslov Toolbar-a
         toolbar.setOnLongClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, SensorDataActivity.class);
             startActivity(intent);
             return true;
         });
 
-        // Inicijalizacija elemenata
         etTaskName = findViewById(R.id.et_task_name);
         fabAddTask = findViewById(R.id.fab_add_task);
         rvTasks = findViewById(R.id.rv_tasks);
@@ -75,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         rbWork = findViewById(R.id.rb_work);
         rbPersonal = findViewById(R.id.rb_personal);
 
-        // Učitaj stanje Switch dugmeta iz SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
         boolean notificationsEnabled = sharedPreferences.getBoolean("notifications_enabled", true);
 
@@ -88,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Kliknuli ste na: " + task, Toast.LENGTH_SHORT).show();
                 },
                 position -> {
-                    // Logika dugog pritiska može ostati prazna ili dodati željeno ponašanje
                 }
         );
 
@@ -97,13 +92,10 @@ public class MainActivity extends AppCompatActivity {
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
         rvTasks.setAdapter(taskAdapter);
 
-        // Postavljanje podrazumevane vrednosti za RadioButton
         rbPersonal.setChecked(true);
 
-        // Učitavanje taskova iz SharedPreferences
         loadTasks();
 
-        // Klik na dugme za otvaranje DatePicker dijaloga
         findViewById(R.id.btn_date_picker).setOnClickListener(view -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -119,13 +111,11 @@ public class MainActivity extends AppCompatActivity {
                     },
                     year, month, day);
 
-            // Postavljanje minimalnog datuma na trenutni datum
             datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 
             datePickerDialog.show();
         });
 
-        // Kontrola Checkbox-a
         cbHighPriority.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 cbLowPriority.setChecked(false);
@@ -138,10 +128,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Klik na plutajući dugme za dodavanje zadatka
         fabAddTask.setOnClickListener(view -> addTask());
 
-// Slušanje događaja klika na stavku u RecyclerView
         rvTasks.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, rvTasks, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
@@ -151,9 +139,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
         );
-
-
-
     }
 
     @Override
@@ -168,12 +153,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_manage_tasks) {
-            // Pokretanje aktivnosti za upravljanje zadacima
             Intent manageTasksIntent = new Intent(MainActivity.this, TaskManagementActivity.class);
             startActivity(manageTasksIntent);
             return true;
         } else if (id == R.id.action_settings) {
-            // Pokretanje aktivnosti za postavke
             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(settingsIntent);
             return true;
@@ -222,12 +205,10 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(MainActivity.this, "Zadatak dodat!", Toast.LENGTH_SHORT).show();
 
-        // Proveri stanje Switch dugmeta iz SharedPreferences pre slanja notifikacije
         SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
         boolean notificationsEnabled = sharedPreferences.getBoolean("notifications_enabled", true);
 
         if (notificationsEnabled) {
-            // Aktiviraj notifikaciju odmah
             Intent intent = new Intent(MainActivity.this, TaskNotificationReceiver.class);
             intent.putExtra("taskName", task);
             intent.putExtra("notificationId", taskList.size());
@@ -256,8 +237,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Učitavanje taskova iz SharedPreferences
         loadTasks();
     }
-
 }

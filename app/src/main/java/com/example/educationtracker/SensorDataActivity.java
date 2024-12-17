@@ -23,7 +23,6 @@ public class SensorDataActivity extends AppCompatActivity implements SensorEvent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // Učitaj temu iz SharedPreferences i postavi je
         SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
         int nightMode = sharedPreferences.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO);
         AppCompatDelegate.setDefaultNightMode(nightMode);
@@ -33,12 +32,10 @@ public class SensorDataActivity extends AppCompatActivity implements SensorEvent
 
         Log.d(TAG, "onCreate: Activity Created");
 
-        // Inicijalizacija elemenata
         tvAccelerometer = findViewById(R.id.tv_accelerometer);
         tvGyroscope = findViewById(R.id.tv_gyroscope);
         tvOrientation = findViewById(R.id.tv_orientation);
 
-        // Inicijalizacija SensorManager i senzora
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager != null) {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -46,7 +43,6 @@ public class SensorDataActivity extends AppCompatActivity implements SensorEvent
             orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         }
 
-        // Registracija senzora
         if (accelerometer != null && gyroscope != null && orientationSensor != null) {
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
             sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
@@ -81,7 +77,6 @@ public class SensorDataActivity extends AppCompatActivity implements SensorEvent
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Neophodna metoda, ne koristi se u ovom primeru
     }
 
     @Override

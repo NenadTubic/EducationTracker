@@ -28,7 +28,6 @@ public class TaskManagementActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Učitaj temu iz SharedPreferences i postavi je
         SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE);
         int nightMode = sharedPreferences.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO);
         AppCompatDelegate.setDefaultNightMode(nightMode);
@@ -41,8 +40,8 @@ public class TaskManagementActivity extends AppCompatActivity {
         taskAdapter = new TaskAdapter(
                 this,
                 taskList,
-                position -> editTask(position),  // Klik za uređivanje
-                position -> deleteTask(position) // Dugi pritisak za brisanje
+                position -> editTask(position),
+                position -> deleteTask(position)
         );
 
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
@@ -54,7 +53,6 @@ public class TaskManagementActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Učitaj zadatke iz SharedPreferences
         loadTasks();
     }
 
@@ -100,9 +98,6 @@ public class TaskManagementActivity extends AppCompatActivity {
 
         builder.show();
     }
-
-
-
     private void saveTasks() {
         SharedPreferences sharedPreferences = getSharedPreferences("TaskPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -123,7 +118,6 @@ public class TaskManagementActivity extends AppCompatActivity {
             taskList.add(newTask);
             taskAdapter.notifyItemInserted(taskList.size() - 1);
             saveTasks();
-            // Osveži podatke u MainActivity
             Intent refreshIntent = new Intent(TaskManagementActivity.this, MainActivity.class);
             startActivity(refreshIntent);
         });
